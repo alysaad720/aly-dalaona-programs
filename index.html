@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlyDlaona - حاسبة العمر</title>
+    <title>AlyDlaona - حاسبة العمر الذكية</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,7 +68,7 @@
 <body>
 
     <div class="container">
-        <h2>حاسبة العمر</h2>
+        <h2>AlyDlaona - حاسبة العمر</h2>
         
         <div class="select-group">
             <select id="day">
@@ -94,12 +94,12 @@
             </select>
         </div>
 
-        <button onclick="calculateAge()">احسب عمرك</button>
+        <button onclick="calculateAge()">احسب عمرك بدقة</button>
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        // تعبئة أيام الشهر (من 1 إلى 31)
+        // تعبئة الأيام تلقائياً من 1 إلى 31
         const daySelect = document.getElementById('day');
         for (let i = 1; i <= 31; i++) {
             let opt = document.createElement('option');
@@ -108,7 +108,7 @@
             daySelect.appendChild(opt);
         }
 
-        // تعبئة الأعوام تلقائياً (من سنة 1900 إلى السنة الحالية)
+        // تعبئة الأعوام تلقائياً تنازلياً من السنة الحالية حتى 1900
         const yearSelect = document.getElementById('year');
         const currentYear = new Date().getFullYear();
         for (let i = currentYear; i >= 1900; i--) {
@@ -119,14 +119,14 @@
         }
 
         function calculateAge() {
-            const d = document.getElementById('day').value;
-            const m = document.getElementById('month').value;
-            const y = document.getElementById('year').value;
+            const d = parseInt(document.getElementById('day').value);
+            const m = parseInt(document.getElementById('month').value);
+            const y = parseInt(document.getElementById('year').value);
             const resultDiv = document.getElementById('result');
 
             if (!d || !m || !y) {
                 resultDiv.style.color = '#f87171';
-                resultDiv.innerHTML = 'الرجاء اختيار اليوم والشهر والعام كاملة!';
+                resultDiv.innerHTML = 'الرجاء اختيار اليوم والشهر والعام بعناية!';
                 return;
             }
 
@@ -139,6 +139,7 @@
 
             if (days < 0) {
                 months--;
+                // حساب عدد أيام الشهر السابق بدقة
                 const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
                 days += lastMonth.getDate();
             }
@@ -149,7 +150,7 @@
             }
 
             resultDiv.style.color = '#4ade80';
-            resultDiv.innerHTML = `عمرك هو: <br>${years} سنة، و ${months} شهر، و ${days} يوم.`;
+            resultDiv.innerHTML = `تاريخ الميلاد: ${y}/${m}/${d}<br>عمرك بدقة هو:<br><b>${years} سنة، و ${months} شهر، و ${days} يوم.</b>`;
         }
     </script>
 
