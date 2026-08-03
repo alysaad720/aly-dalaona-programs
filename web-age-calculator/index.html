@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlyDlaona - حاسبة العمر الذكية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 340px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #38bdf8;
+            font-size: 22px;
+        }
+        .select-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        select {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #475569;
+            background-color: #0f172a;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        button:hover {
+            background-color: #0369a1;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #4ade80;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>AlyDlaona - حاسبة العمر</h2>
+        
+        <div class="select-group">
+            <select id="day">
+                <option value="">اليوم</option>
+            </select>
+            <select id="month">
+                <option value="">الشهر</option>
+                <option value="1">يناير</option>
+                <option value="2">فبراير</option>
+                <option value="3">مارس</option>
+                <option value="4">أبريل</option>
+                <option value="5">مايو</option>
+                <option value="6">يونيو</option>
+                <option value="7">يوليو</option>
+                <option value="8">أغسطس</option>
+                <option value="9">سبتمبر</option>
+                <option value="10">أكتوبر</option>
+                <option value="11">نوفمبر</option>
+                <option value="12">ديسمبر</option>
+            </select>
+            <select id="year">
+                <option value="">العام</option>
+            </select>
+        </div>
+
+        <button onclick="calculateAge()">احسب عمرك بدقة</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const daySelect = document.getElementById('day');
+        for (let i = 1; i <= 31; i++) {
+            let opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            daySelect.appendChild(opt);
+        }
+
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear; i >= 1900; i--) {
+            let opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            yearSelect.appendChild(opt);
+        }
+
+        function calculateAge() {
+            const d = parseInt(document.getElementById('day').value);
+            const m = parseInt(document.getElementById('month').value);
+            const y = parseInt(document.getElementById('year').value);
+            const resultDiv = document.getElementById('result');
+
+            if (!d || !m || !y) {
+                resultDiv.style.color = '#f87171';
+                resultDiv.innerHTML = 'الرجاء اختيار اليوم والشهر والعام بعناية!';
+                return;
+            }
+
+            const birthDate = new Date(y, m - 1, d);
+            const today = new Date();
+
+            let years = today.getFullYear() - birthDate.getFullYear();
+            let months = today.getMonth() - birthDate.getMonth();
+            let days = today.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += lastMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            resultDiv.style.color = '#4ade80';
+            resultDiv.innerHTML = `تاريخ الميلاد: ${y}/${m}/${d}<br>عمرك بدقة هو:<br><b>${years} سنة، و ${months} شهر، و ${days} يوم.</b>`;
+        }
+    </script>
